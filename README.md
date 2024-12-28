@@ -28,7 +28,6 @@ To run the World Live Clock app on your machine, follow the steps below:
 
 - **.NET 8 SDK** or later installed.
 - Visual Studio 2022 or later with the **.NET MAUI** workload installed.
-- Android, iOS, macOS, or Windows device for testing.
 
 ### Steps
 
