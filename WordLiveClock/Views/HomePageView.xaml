@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WordLiveClock.Views.HomePageView"
+             Title="World Clock"
+             BackgroundColor="#F4F4F9">
+    <Grid RowDefinitions="Auto, *" Padding="10">
+        <!-- Header Section -->
+        <Label Grid.Row="0"
+               Text="World Clock for 195 Countries"
+               Style="{StaticResource HeaderLabelStyle}" />
+
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+            <CollectionView ItemsSource="{Binding CityClocks}"
+                            SelectionMode="None"
+                            VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, *" Padding="10">
+                                <!-- Country Name -->
+                                <Label Grid.Row="0" Grid.ColumnSpan="2"
+                                       Text="{Binding CountryName}" 
+                                       FontSize="Medium" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#2F2F2F"/>
+
+                                <!-- Date -->
+                                <Label Grid.Row="1" Grid.Column="0" 
+                                       Text="Date:" 
+                                       Style="{StaticResource SectionLabelStyle}" />
+                                <Label Grid.Row="1" Grid.Column="1" 
+                                       Text="{Binding Date}" 
+                                       Style="{StaticResource TextLabelStyle}" />
+
+                                <!-- Time -->
+                                <Label Grid.Row="2" Grid.Column="0" 
+                                       Text="Time:" 
+                                       Style="{StaticResource SectionLabelStyle}" />
+                                <Label Grid.Row="2" Grid.Column="1" 
+                                       Text="{Binding Time}" 
+                                       Style="{StaticResource TextLabelStyle}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+</ContentPage>
