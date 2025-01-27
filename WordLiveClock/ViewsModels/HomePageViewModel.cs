@@ -8,12 +8,16 @@ namespace WordLiveClock.ViewModels
 {
     public partial class HomePageViewModel : ObservableObject
     {
+        public string VersionNumber { get; set; }
+
+        
         public ObservableCollection<CityClockModel> CityClocks { get; set; } = new();
 
         private readonly System.Timers.Timer _timer;
 
         public HomePageViewModel()
         {
+            VersionNumber = VersionTracking.CurrentVersion;
             // Country-to-time zone mapping (Expanded for multiple countries)
             var countryToTimeZone = new Dictionary<string, string>
             {
