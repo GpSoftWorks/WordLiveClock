@@ -4,7 +4,7 @@
              x:Class="WordLiveClock.Views.HomePageView"
              Title="World Clock"
              BackgroundColor="#F4F4F9">
-    <Grid RowDefinitions="Auto, *" Padding="10">
+    <Grid RowDefinitions="Auto, *, Auto" Padding="10">
         <!-- Header Section -->
         <Label Grid.Row="0"
                Text="World Clock for 195 Countries"
@@ -47,5 +47,27 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </ScrollView>
+
+        <!-- About Section -->
+        <Frame Grid.Row="2" Padding="15" BackgroundColor="#FFFFFF" CornerRadius="10" Margin="0,10,0,0">
+            <StackLayout Spacing="5">
+                <Label Text="World Live Clock"
+                       FontSize="Medium"
+                       FontAttributes="Bold"
+                       TextColor="#2F2F2F" />
+
+                <Label Text="Version: 1.0.0"
+                       FontSize="Small"
+                       TextColor="#5F5F5F" />
+
+                <Label Text="Developed by GpSoftWorks"
+                       FontSize="Small"
+                       TextColor="#5F5F5F" />
+
+                <Label Text="Contact: gpsoftworks@gmail.com"
+                       FontSize="Small"
+                       TextColor="#5F5F5F" />
+            </StackLayout>
+        </Frame>
     </Grid>
 </ContentPage>
