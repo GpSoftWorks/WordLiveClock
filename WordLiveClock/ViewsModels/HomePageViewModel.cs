@@ -10,7 +10,6 @@ namespace WordLiveClock.ViewModels
     {
         public string VersionNumber { get; set; }
 
-        
         public ObservableCollection<CityClockModel> CityClocks { get; set; } = new();
 
         private readonly System.Timers.Timer _timer;
@@ -18,53 +17,54 @@ namespace WordLiveClock.ViewModels
         public HomePageViewModel()
         {
             VersionNumber = VersionTracking.CurrentVersion;
-            // Country-to-time zone mapping (Expanded for multiple countries)
-            var countryToTimeZone = new Dictionary<string, string>
+            // Country-to-time zone and language mapping
+            var countryData = new Dictionary<string, (string TimeZone, string Language)>
             {
-                { "United States", "Eastern Standard Time" },
-                { "United Kingdom", "GMT Standard Time" },
-                { "Japan", "Tokyo Standard Time" },
-                { "India", "India Standard Time" },
-                { "Germany", "Central European Standard Time" },
-                { "Australia", "AUS Eastern Standard Time" },
-                { "Brazil", "E. South America Standard Time" },
-                { "Russia", "Russian Standard Time" },
-                { "China", "China Standard Time" },
-                { "South Africa", "South Africa Standard Time" },
-                { "Argentina", "Argentina Standard Time" },
-                { "Belgium", "Central European Standard Time" },
-                { "Canada", "Pacific Standard Time" },
-                { "Mexico", "Central Standard Time" },
-                { "France", "Central European Standard Time" },
-                { "Italy", "Central European Standard Time" },
-                { "Spain", "Central European Standard Time" },
-                { "Netherlands", "Central European Standard Time" },
-                { "Sweden", "Central European Standard Time" },
-                { "Switzerland", "Central European Standard Time" },
-                { "New Zealand", "New Zealand Standard Time" },
-                { "South Korea", "Korea Standard Time" },
-                { "Turkey", "Turkey Standard Time" },
-                { "Egypt", "Eastern European Standard Time" },
-                { "Poland", "Central European Standard Time" },
-                { "Saudi Arabia", "Arabian Standard Time" },
-                { "Singapore", "Singapore Standard Time" },
-                { "Thailand", "Indochina Time" },
-                { "Indonesia", "Western Indonesia Time" },
-                { "Nigeria", "West Africa Time" },
-                { "Ukraine", "Eastern European Standard Time" },
-                { "Vietnam", "Indochina Time" },
+                { "United States", ("Eastern Standard Time", "English") },
+                { "United Kingdom", ("GMT Standard Time", "English") },
+                { "Japan", ("Tokyo Standard Time", "Japanese") },
+                { "India", ("India Standard Time", "Hindi") },
+                { "Germany", ("Central European Standard Time", "German") },
+                { "Australia", ("AUS Eastern Standard Time", "English") },
+                { "Brazil", ("E. South America Standard Time", "Portuguese") },
+                { "Russia", ("Russian Standard Time", "Russian") },
+                { "China", ("China Standard Time", "Mandarin") },
+                { "South Africa", ("South Africa Standard Time", "Zulu") },
+                { "Argentina", ("Argentina Standard Time", "Spanish") },
+                { "Belgium", ("Central European Standard Time", "Dutch, French, German") },
+                { "Canada", ("Pacific Standard Time", "English, French") },
+                { "Mexico", ("Central Standard Time", "Spanish") },
+                { "France", ("Central European Standard Time", "French") },
+                { "Italy", ("Central European Standard Time", "Italian") },
+                { "Spain", ("Central European Standard Time", "Spanish") },
+                { "Netherlands", ("Central European Standard Time", "Dutch") },
+                { "Sweden", ("Central European Standard Time", "Swedish") },
+                { "Switzerland", ("Central European Standard Time", "German, French, Italian") },
+                { "New Zealand", ("New Zealand Standard Time", "English, Māori") },
+                { "South Korea", ("Korea Standard Time", "Korean") },
+                { "Turkey", ("Turkey Standard Time", "Turkish") },
+                { "Egypt", ("Eastern European Standard Time", "Arabic") },
+                { "Poland", ("Central European Standard Time", "Polish") },
+                { "Saudi Arabia", ("Arabian Standard Time", "Arabic") },
+                { "Singapore", ("Singapore Standard Time", "English, Malay, Mandarin, Tamil") },
+                { "Thailand", ("Indochina Time", "Thai") },
+                { "Indonesia", ("Western Indonesia Time", "Indonesian") },
+                { "Nigeria", ("West Africa Time", "English") },
+                { "Ukraine", ("Eastern European Standard Time", "Ukrainian") },
+                { "Vietnam", ("Indochina Time", "Vietnamese") },
                 // Add more countries here...
             };
 
             // Populate the CityClocks collection
-            foreach (var kvp in countryToTimeZone)
+            foreach (var kvp in countryData)
             {
                 CityClocks.Add(new CityClockModel
                 {
                     CountryName = kvp.Key,
-                    TimeZoneId = kvp.Value,
-                    Date = GetCityTime(kvp.Value).ToString("yyyy-MM-dd"),
-                    Time = GetCityTime(kvp.Value).ToString("hh:mm:ss tt") // AM/PM format
+                    TimeZoneId = kvp.Value.TimeZone,
+                    CountryLanguage = kvp.Value.Language,
+                    Date = GetCityTime(kvp.Value.TimeZone).ToString("yyyy-MM-dd"),
+                    Time = GetCityTime(kvp.Value.TimeZone).ToString("hh:mm:ss tt") // AM/PM format
                 });
             }
 
@@ -84,7 +84,6 @@ namespace WordLiveClock.ViewModels
             }
         }
 
-
         private static DateTime GetCityTime(string? timeZoneId)
         {
             if (string.IsNullOrEmpty(timeZoneId))
@@ -101,7 +100,6 @@ namespace WordLiveClock.ViewModels
                 return DateTime.UtcNow; // Fallback to UTC if the time zone is invalid
             }
         }
-
     }
 
     public partial class CityClockModel : ObservableObject
@@ -110,6 +108,7 @@ namespace WordLiveClock.ViewModels
         private string? timeZoneId;
         private string? date;
         private string? time;
+        private string? countryLanguage;
 
         public string? CountryName
         {
@@ -133,6 +132,12 @@ namespace WordLiveClock.ViewModels
         {
             get => time;
             set => SetProperty(ref time, value);
+        }
+
+        public string? CountryLanguage
+        {
+            get => countryLanguage;
+            set => SetProperty(ref countryLanguage, value);
         }
     }
 }
